@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423531834342",
+    "project_id": "androidtraining-2713b",
+    "storage_bucket": "androidtraining-2713b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423531834342:android:e982fec40daa469db94427",
+        "android_client_info": {
+          "package_name": "com.fs.jayrek.trainingtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423531834342-8kjgaho6072385t5m8sroijksj1u4ldh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwVkNrByNdj8-INJIe5y532hF05VLeOzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423531834342-8kjgaho6072385t5m8sroijksj1u4ldh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
