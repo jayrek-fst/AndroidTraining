@@ -1,4 +1,4 @@
-package com.fs.jayrek.trainingtask.ui.fragment
+package com.fs.jayrek.trainingtask.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
