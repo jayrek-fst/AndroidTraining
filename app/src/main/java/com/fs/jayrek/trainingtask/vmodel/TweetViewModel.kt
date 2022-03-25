@@ -9,7 +9,6 @@ import com.fs.jayrek.trainingtask.model.model.TweetModel
 import com.fs.jayrek.trainingtask.model.repository.TweeterRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class TweetViewModel() : ViewModel() {
 
@@ -17,16 +16,13 @@ class TweetViewModel() : ViewModel() {
     val tweets: LiveData<List<TweetModel>> = _tweets
 
     fun getTweets(){
-        viewModelScope.launch {
-           withContext(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
              try{
-                 TweeterRepository().getTweets().let {
-                     _tweets.postValue(it)
-                 }
-             }catch (e: Exception){
+                 val tweet = TweeterRepository().getTweets()
+                 _tweets.postValue(tweet)
+             } catch (e: Exception){
                  Log.wtf("tweetException", e.message)
              }
-           }
         }
     }
 
