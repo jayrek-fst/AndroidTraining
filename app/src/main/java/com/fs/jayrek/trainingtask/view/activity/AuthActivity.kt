@@ -1,4 +1,4 @@
-package com.fs.jayrek.trainingtask.ui.activity
+package com.fs.jayrek.trainingtask.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

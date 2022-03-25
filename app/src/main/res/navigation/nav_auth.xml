@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.fs.jayrek.trainingtask.ui.fragment.SignInFragment"
+        android:name="com.fs.jayrek.trainingtask.view.fragment.SignInFragment"
         android:label="Sign In"
         tools:layout="@layout/fragment_signin" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.fs.jayrek.trainingtask.ui.fragment.SignUpFragment"
+        android:name="com.fs.jayrek.trainingtask.view.fragment.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_signup" >
         <action
