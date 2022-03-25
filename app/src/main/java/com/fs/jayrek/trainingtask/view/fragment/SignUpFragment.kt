@@ -40,6 +40,7 @@ class SignUpFragment : Fragment() {
 
         viewModel.user.observe(viewLifecycleOwner){
             startActivity(Intent(requireActivity(), MainActivity::class.java))
+            requireActivity().finish()
         }
 
         viewModel.errorMsg.observe(viewLifecycleOwner){

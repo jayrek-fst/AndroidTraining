@@ -1,14 +1,17 @@
 package com.fs.jayrek.trainingtask.model.repository
 
-import android.util.Log
 import com.fs.jayrek.trainingtask.helper.StringHelper
 import com.fs.jayrek.trainingtask.model.model.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository {
+
+    fun checkUser() : FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     suspend fun signInWithEmail(
         email: String,
@@ -29,5 +32,13 @@ class AuthRepository {
             .document(uid)
             .set(user)
             .await()
+    }
+
+    suspend fun getUserInfo(
+        uid: String
+    ): DocumentSnapshot? {
+        return FirebaseFirestore.getInstance().collection(StringHelper.documentUser)
+             .document(uid)
+             .get().await()
     }
 }
