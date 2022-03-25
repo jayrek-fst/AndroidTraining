@@ -7,6 +7,5 @@ data class TweetModel(
     val date: String,
     val id: Long,
     val source: String,
-    val profileImage: String,
-    var photo: String? = null
+    val profileImage: String
 )

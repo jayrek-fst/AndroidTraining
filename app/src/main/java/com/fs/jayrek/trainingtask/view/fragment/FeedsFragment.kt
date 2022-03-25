@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentFeedsBinding
@@ -33,22 +32,20 @@ class FeedsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializedAdapter()
         observers()
-    }
-
-    private fun initializedAdapter() {
-        binding.rView.apply {
-            layoutManager = LinearLayoutManager(requireActivity())
-            feedAdapter = FeedAdapter()
-            adapter = feedAdapter
-        }
     }
 
     private fun observers(){
         viewModel.getTweets()
         viewModel.tweets.observe(viewLifecycleOwner){
-            feedAdapter.listFeed(it)
+            if(it.isNotEmpty()){
+                binding.rView.apply {
+                    layoutManager = LinearLayoutManager(requireActivity())
+                feedAdapter = FeedAdapter(it)
+                adapter = feedAdapter }
+            } else {
+                Log.wtf("EMPTY", "empty")
+            }
         }
     }
 }
