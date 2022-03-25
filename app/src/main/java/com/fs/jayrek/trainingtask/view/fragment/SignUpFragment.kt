@@ -1,41 +1,59 @@
 package com.fs.jayrek.trainingtask.view.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.fs.jayrek.trainingtask.R
+import com.fs.jayrek.trainingtask.databinding.FragmentSignupBinding
 import com.fs.jayrek.trainingtask.view.activity.MainActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
+import com.fs.jayrek.trainingtask.helper.DialogHelper
 
 class SignUpFragment : Fragment() {
+
+    private lateinit var binding: FragmentSignupBinding
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_signup, container, false)
-        val btnConfirm = view.findViewById<Button>(R.id.btnConfirm)
-        val edEmail = view.findViewById<EditText>(R.id.edEmail)
-        val edFName = view.findViewById<EditText>(R.id.edFirstName)
-        val edLName = view.findViewById<EditText>(R.id.edLastName)
-        val edPassword = view.findViewById<EditText>(R.id.edPassword)
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false)
+        return binding.root
+    }
 
-        val viewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observers()
+    }
 
-        btnConfirm.setOnClickListener {
+    private fun observers(){
+        binding.btnConfirm.setOnClickListener {
+            closeKeyBoard()
             viewModel.signUp(
-                edEmail.text.toString(),
-                edFName.text.toString(),
-                edLName.text.toString(),
-                edPassword.text.toString()
+                binding.edEmail.text.toString(),
+                binding.edFirstName.text.toString(),
+                binding.edLastName.text.toString(),
+                binding.edPassword.text.toString()
             )
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                DialogHelper.showProgressDialog("Signing up...", requireActivity(), false)
+            } else {
+                DialogHelper.dismissProgressDialog()
+            }
         }
 
         viewModel.user.observe(viewLifecycleOwner){
@@ -46,7 +64,13 @@ class SignUpFragment : Fragment() {
         viewModel.errorMsg.observe(viewLifecycleOwner){
             Toast.makeText(requireActivity(), it.toString(), Toast.LENGTH_SHORT).show()
         }
-        return view
     }
 
+    private fun closeKeyBoard() {
+        val view = requireActivity().currentFocus
+        if (view != null) {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
 }

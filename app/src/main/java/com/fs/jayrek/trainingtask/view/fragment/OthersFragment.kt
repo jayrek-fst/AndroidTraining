@@ -1,36 +1,62 @@
 package com.fs.jayrek.trainingtask.view.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.fs.jayrek.trainingtask.R
+import com.fs.jayrek.trainingtask.databinding.FragmentOthersBinding
+import com.fs.jayrek.trainingtask.view.activity.AuthActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
 
 class OthersFragment : Fragment() {
 
-    private var uid: String = ""
+    private lateinit var binding: FragmentOthersBinding
+    private val viewModel: AuthViewModel by viewModels()
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_others, container, false)
-        val tvInfo = view.findViewById<TextView>(R.id.tvInfo)
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_others, container, false)
+        return binding.root
+    }
 
-        val viewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeData()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun observeData(){
         viewModel.getUser()
         viewModel.snapShot.observe(viewLifecycleOwner){
             val fName: String = it.get("firstName").toString()
             val lName: String = it.get("lastName").toString()
-            tvInfo.text = "$fName $lName"
+            binding.tvInfo.text = "$fName $lName"
         }
-        return view
+
+        binding.tvLogOut.setOnClickListener{
+            viewModel.logOut()
+        }
+
+        viewModel.isLogout.observe(viewLifecycleOwner){
+            if(it){
+                Toast.makeText(requireActivity(), "You have logged out...", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(Intent(requireActivity(), AuthActivity::class.java)))
+                requireActivity().finish()
+            }
+        }
+
+        viewModel.errorMsg.observe(viewLifecycleOwner){
+            Toast.makeText(requireActivity(), it.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 }

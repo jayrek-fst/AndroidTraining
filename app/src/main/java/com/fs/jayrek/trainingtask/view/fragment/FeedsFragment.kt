@@ -37,7 +37,6 @@ class FeedsFragment : Fragment() {
         observers()
     }
 
-
     private fun initializedAdapter() {
         binding.rView.apply {
             layoutManager = LinearLayoutManager(requireActivity())
@@ -49,7 +48,6 @@ class FeedsFragment : Fragment() {
     private fun observers(){
         viewModel.getTweets()
         viewModel.tweets.observe(viewLifecycleOwner){
-            Log.wtf("TWEETS:", it.toString())
             feedAdapter.listFeed(it)
         }
     }

@@ -4,7 +4,7 @@ import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.TweetModel
 import twitter4j.TwitterFactory
 
-class TweeterRepository() {
+class TweeterRepository{
 
     private val twitter = TwitterFactory().instance
     fun getTweets(): MutableList<TweetModel> {

@@ -21,6 +21,9 @@ class AuthViewModel() : ViewModel() {
     private val _err: MutableLiveData<String> = MutableLiveData()
     val errorMsg: LiveData<String> = _err
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun checkUserLogIn() {
         viewModelScope.launch {
             try {
@@ -33,17 +36,21 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun signIn(email: String, password: String) {
+        _isLoading.postValue(true)
         viewModelScope.launch {
             try {
                 val repository = AuthRepository().signInWithEmail(email, password)
+                _isLoading.postValue(false)
                 _user.postValue(repository?.user)
             } catch (e: Exception) {
+                _isLoading.postValue(false)
                 _err.postValue(e.message)
             }
         }
     }
 
     fun signUp(email: String, fName: String, lName: String, password: String) {
+        _isLoading.postValue(true)
         viewModelScope.launch {
             try {
                 val repository = AuthRepository().signUpWithEmail(email, password)
@@ -51,11 +58,14 @@ class AuthViewModel() : ViewModel() {
                     val uid = repository?.user?.uid
                     val user = User(fName, lName)
                     AuthRepository().saveUserToFirestore(uid.toString(), user)
+                    _isLoading.postValue(false)
                     _user.postValue(repository?.user)
                 } catch (e: Exception) {
+                    _isLoading.postValue(false)
                     _err.postValue(e.message)
                 }
             } catch (e: Exception) {
+                _isLoading.postValue(false)
                 _err.postValue(e.message)
             }
         }
@@ -75,5 +85,20 @@ class AuthViewModel() : ViewModel() {
             }
         }
     }
+
+    private val _isLogOut: MutableLiveData<Boolean> = MutableLiveData()
+    val isLogout: LiveData<Boolean> = _isLogOut
+
+    fun logOut(){
+        _isLogOut.postValue(false)
+        viewModelScope.launch {
+            try{
+                FirebaseAuth.getInstance().signOut()
+                _isLogOut.postValue(true)
+            }catch (e: Exception) {
+                _isLogOut.postValue(false)
+                _err.postValue(e.message)
+            }
+        }}
 
 }
