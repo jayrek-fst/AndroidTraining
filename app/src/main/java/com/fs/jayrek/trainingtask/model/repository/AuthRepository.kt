@@ -1,6 +1,6 @@
 package com.fs.jayrek.trainingtask.model.repository
 
-import com.fs.jayrek.trainingtask.helper.StringHelper
+import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +28,7 @@ class AuthRepository {
         uid: String,
         user: User
     ) {
-        FirebaseFirestore.getInstance().collection(StringHelper.documentUser)
+        FirebaseFirestore.getInstance().collection(StringConstants.documentUser)
             .document(uid)
             .set(user)
             .await()
@@ -37,7 +37,7 @@ class AuthRepository {
     suspend fun getUserInfo(
         uid: String
     ): DocumentSnapshot? {
-        return FirebaseFirestore.getInstance().collection(StringHelper.documentUser)
+        return FirebaseFirestore.getInstance().collection(StringConstants.documentUser)
              .document(uid)
              .get().await()
     }
