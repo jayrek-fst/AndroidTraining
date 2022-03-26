@@ -10,8 +10,10 @@ import androidx.databinding.DataBindingUtil
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.ActivitySplashBinding
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,17 +1,17 @@
 package com.fs.jayrek.trainingtask.model.repository
 
-import android.util.Log
 import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.TweetModel
 import twitter4j.TwitterFactory
+import javax.inject.Inject
 
-class TweeterRepository{
+class TweeterRepository @Inject constructor(private val _twitterFactory: TwitterFactory){
 
-    private val twitterFactory = TwitterFactory().instance
+//    private val twitterFactory = TwitterFactory().instance
     fun getTweets(): Resource<MutableList<TweetModel>> {
         val tweets = mutableListOf<TweetModel>()
-        val timelineTweets = twitterFactory.getUserTimeline(StringConstants.userAccount)
+        val timelineTweets = _twitterFactory.instance.getUserTimeline(StringConstants.userAccount)
             timelineTweets.forEach {
                 tweets.add(
                     TweetModel(

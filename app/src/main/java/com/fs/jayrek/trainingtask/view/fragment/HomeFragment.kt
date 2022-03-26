@@ -15,8 +15,9 @@ import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentHomeBinding
 import com.fs.jayrek.trainingtask.helper.JSInterface
 import com.fs.jayrek.trainingtask.helper.StringConstants
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")

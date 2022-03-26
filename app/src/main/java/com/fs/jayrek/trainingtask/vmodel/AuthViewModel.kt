@@ -10,9 +10,12 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
+@HiltViewModel
+class AuthViewModel @Inject constructor(private val _repo: AuthRepository): ViewModel() {
 
     private val _authStatus = MutableLiveData<Resource<AuthResult>>()
     val authStatus: LiveData<Resource<AuthResult>> = _authStatus
@@ -21,7 +24,7 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _authStatus.postValue(Resource.Loading())
-                val response = AuthRepository().signInWithEmail(email, password)
+                val response = _repo.signInWithEmail(email, password)
                 _authStatus.postValue(response)
             } catch (e: Exception) {
                 _authStatus.postValue(Resource.Error(e.message.toString()))
@@ -33,7 +36,7 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _authStatus.postValue(Resource.Loading())
-                val response = AuthRepository().signUpWithEmail(email, password, fName, lName)
+                val response = _repo.signUpWithEmail(email, password, fName, lName)
                 _authStatus.postValue(response)
             } catch (e: Exception) {
                 _authStatus.postValue(Resource.Error(e.message.toString()))
@@ -49,14 +52,13 @@ class AuthViewModel : ViewModel() {
             try {
                 _snapShot.postValue(Resource.Loading())
                 val uid = FirebaseAuth.getInstance().currentUser!!.uid
-                val snap = AuthRepository().getUserInfo(uid)
+                val snap = _repo.getUserInfo(uid)
                 _snapShot.postValue(snap)
             } catch (e: Exception) {
                 _snapShot.postValue(Resource.Error(e.message.toString()))
             }
         }
     }
-
 
     private val _isLogOut: MutableLiveData<Boolean> = MutableLiveData()
     val isLogout: LiveData<Boolean> = _isLogOut
@@ -67,7 +69,7 @@ class AuthViewModel : ViewModel() {
     fun checkUserLogIn() {
         viewModelScope.launch {
             try {
-                val repository = AuthRepository().checkUser()
+                val repository = _repo.checkUser()
                 _user.postValue(repository!!)
             } catch (e: Exception) {
                 _user.postValue(null)
