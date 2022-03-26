@@ -15,13 +15,13 @@ import com.fs.jayrek.trainingtask.databinding.FragmentSignupBinding
 import com.fs.jayrek.trainingtask.view.activity.MainActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import com.fs.jayrek.trainingtask.helper.DialogHelper
+import com.fs.jayrek.trainingtask.helper.Resource
+import com.fs.jayrek.trainingtask.helper.StringConstants
 
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
-    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,9 @@ class SignUpFragment : Fragment() {
         observers()
     }
 
-    private fun observers(){
+    private fun observers() {
+        val viewModel: AuthViewModel by viewModels()
+
         binding.btnConfirm.setOnClickListener {
             closeKeyBoard()
             viewModel.signUp(
@@ -48,28 +50,32 @@ class SignUpFragment : Fragment() {
             )
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) {
-                DialogHelper.showProgressDialog("Signing up...", requireActivity(), false)
-            } else {
-                DialogHelper.dismissProgressDialog()
+        viewModel.authStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> DialogHelper.showProgressDialog(
+                    StringConstants.signingUp,
+                    requireActivity(),
+                    false
+                )
+                is Resource.Success -> {
+                    DialogHelper.dismissProgressDialog()
+                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    requireActivity().finish()
+                }
+                is Resource.Error -> {
+                    DialogHelper.dismissProgressDialog()
+                    Toast.makeText(requireActivity(),
+                        it.message.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-
-        viewModel.user.observe(viewLifecycleOwner){
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
-            requireActivity().finish()
-        }
-
-        viewModel.errorMsg.observe(viewLifecycleOwner){
-            Toast.makeText(requireActivity(), it.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun closeKeyBoard() {
         val view = requireActivity().currentFocus
         if (view != null) {
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +35,10 @@ class HomeFragment : Fragment() {
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (Uri.parse(url).host == StringConstants.homeWebUrl) {
+                    Log.wtf("URL=1", url.toString())
                     return false
                 }
-
+                Log.wtf("URL=2", url.toString())
                 Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                     startActivity(this)
                     return true
@@ -44,7 +46,6 @@ class HomeFragment : Fragment() {
             }
         }
         binding.webView.addJavascriptInterface(JSInterface(requireActivity()), "Android")
-
         return binding.root
     }
 }

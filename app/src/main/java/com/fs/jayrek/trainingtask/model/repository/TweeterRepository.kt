@@ -1,14 +1,15 @@
 package com.fs.jayrek.trainingtask.model.repository
 
+import android.util.Log
+import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.TweetModel
 import twitter4j.TwitterFactory
-import kotlin.coroutines.suspendCoroutine
 
 class TweeterRepository{
 
     private val twitterFactory = TwitterFactory().instance
-    fun getTweets(): MutableList<TweetModel>{
+    fun getTweets(): Resource<MutableList<TweetModel>> {
         val tweets = mutableListOf<TweetModel>()
         val timelineTweets = twitterFactory.getUserTimeline(StringConstants.userAccount)
             timelineTweets.forEach {
@@ -19,7 +20,7 @@ class TweeterRepository{
                     )
                 )
             }
-        return tweets
+        return Resource.Success(tweets)
     }
 }
 
