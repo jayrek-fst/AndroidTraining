@@ -1,6 +1,5 @@
 package com.fs.jayrek.trainingtask.model.repository
 
-import android.util.Log
 import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.helper.safeApiCall

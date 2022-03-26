@@ -7,7 +7,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import twitter4j.TwitterFactory
-import twitter4j.TwitterObjectFactory
 import javax.inject.Singleton
 
 @Module
@@ -31,5 +30,4 @@ object AppModule {
     fun twitterProvider() : TwitterFactory {
         return TwitterFactory()
     }
-
 }
