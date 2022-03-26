@@ -12,8 +12,8 @@ class JSInterface(private val mContext: Context) {
 
     @JavascriptInterface
     fun signup(){
-        Log.wtf("test:", "url")
+        Log.wtf("URL=3", "URL")
 //        val intent = Intent(mContext, SignUpWebViewActivity::class.java)
-//        startActivity(intent)
+//        mContext.startActivity(intent)
     }
 }

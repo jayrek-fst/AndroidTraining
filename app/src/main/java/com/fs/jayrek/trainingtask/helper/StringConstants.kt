@@ -8,4 +8,10 @@ object StringConstants {
     const val userId = "2318752818"
     const val userAccount = "akasoeiji"
 
+    const val pleaseWait = "Please wait..."
+    const val signingIn = "Signing in..."
+    const val signingUp = "Signing up..."
+    const val signingOut = "You have sign out..."
+    const val noAvailable = "No tweets available."
+
 }

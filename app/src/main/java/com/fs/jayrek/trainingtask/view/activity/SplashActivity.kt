@@ -32,6 +32,3 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 }
-
-//for safe call api firebase
-//https://www.section.io/engineering-education/coroutines-and-realtime-database-in-firebase-authentication-in-android/#step-6---utility-items
