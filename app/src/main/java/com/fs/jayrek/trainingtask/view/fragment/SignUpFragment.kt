@@ -18,7 +18,9 @@ import android.view.inputmethod.InputMethodManager
 import com.fs.jayrek.trainingtask.helper.DialogHelper
 import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding

@@ -16,7 +16,9 @@ import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.view.adapter.FeedAdapter
 import com.fs.jayrek.trainingtask.vmodel.TweetViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedsFragment : Fragment() {
 
     private lateinit var binding: FragmentFeedsBinding

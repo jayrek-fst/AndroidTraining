@@ -13,8 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AuthRepository {
+class AuthRepository @Inject constructor(private val _auth: FirebaseAuth, private val _fireStore: FirebaseFirestore) {
 
     suspend fun signInWithEmail(
         email: String,
@@ -23,7 +24,7 @@ class AuthRepository {
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 Resource.Success(
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).await()
+                    _auth.signInWithEmailAndPassword(email, password).await()
                 )
             }
         }
@@ -37,9 +38,9 @@ class AuthRepository {
             safeApiCall {
                 val user = User(fName, lName)
                 val auth =
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    _auth.createUserWithEmailAndPassword(email, password)
                         .await()
-                FirebaseFirestore.getInstance().collection(StringConstants.documentUser)
+                _fireStore.collection(StringConstants.documentUser)
                     .document(auth.user!!.uid)
                     .set(user)
                     .await()
@@ -54,7 +55,7 @@ class AuthRepository {
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 Resource.Success(
-                    FirebaseFirestore.getInstance().collection(StringConstants.documentUser)
+                    _fireStore.collection(StringConstants.documentUser)
                         .document(uid)
                         .get().await()
                 )
@@ -62,7 +63,7 @@ class AuthRepository {
         }
     }
 
-    fun checkUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    fun checkUser(): FirebaseUser? = _auth.currentUser
 
     /* suspend fun saveUserToFirestore(
          uid: String,

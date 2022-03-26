@@ -17,7 +17,9 @@ import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.User
 import com.fs.jayrek.trainingtask.view.activity.AuthActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OthersFragment : Fragment() {
 
     private lateinit var binding: FragmentOthersBinding
