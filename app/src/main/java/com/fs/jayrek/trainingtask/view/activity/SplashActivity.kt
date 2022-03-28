@@ -31,8 +31,12 @@ class SplashActivity : AppCompatActivity() {
             Handler().postDelayed({
                 if (it != null)
                     startActivity(Intent(Intent(this, MainActivity::class.java)))
-                else
-                    startActivity(Intent(Intent(this, AuthActivity::class.java)))
+                else {
+                    val intent = Intent(this, AuthActivity::class.java)
+                    intent.putExtra("type", "signIn")
+                    startActivity(intent)
+                }
+
                 finish()
             }, 3000)
             /**delay for 3 seconds, for the visibility of splash*/

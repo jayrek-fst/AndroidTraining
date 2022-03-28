@@ -1,19 +1,19 @@
 package com.fs.jayrek.trainingtask.helper
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.webkit.JavascriptInterface
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import com.fs.jayrek.trainingtask.view.activity.SignUpWebViewActivity
+import com.fs.jayrek.trainingtask.view.activity.AuthActivity
 
-class JSInterface(private val mContext: Context) {
+class JSInterface(private val activity: Activity) {
 
     @JavascriptInterface
     fun signup() {
         Log.wtf("URL=3", "URL")
-//        val intent = Intent(mContext, SignUpWebViewActivity::class.java)
-//        mContext.startActivity(intent)
+        val intent = Intent(activity, AuthActivity::class.java)
+        intent.putExtra("type", "signUp")
+        activity.startActivity(intent)
+        activity.finish()
     }
 }

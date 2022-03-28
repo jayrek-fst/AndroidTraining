@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +33,11 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        signOutUser()
         observers()
     }
 
     private fun observers() {
-        val viewModel: AuthViewModel by viewModels()
-
         binding.btnConfirm.setOnClickListener {
             HelperClass.closeKeyBoard(requireActivity())
 
@@ -74,6 +74,43 @@ class SignUpFragment : Fragment() {
                         requireActivity(),
                         it.message.toString(), Toast.LENGTH_SHORT
                     ).show()
+                }
+            }
+        }
+    }
+
+    private fun signOutUser() {
+        viewModel.checkUserLogIn()
+        viewModel.user.observe(requireActivity()) { it ->
+            if (it != null) {
+                viewModel.logOut()
+                viewModel.isLogout.observe(viewLifecycleOwner) {
+                    when (it) {
+                        is Resource.Loading -> DialogHelper.showProgressDialog(
+                            StringConstants.SIGNING_OUT,
+                            requireActivity(),
+                            false
+                        )
+                        is Resource.Success -> {
+                            DialogHelper.dismissProgressDialog()
+                            Toast.makeText(
+                                requireActivity(),
+                                StringConstants.SIGNED_OUT,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        is Resource.Error -> {
+                            DialogHelper.dismissProgressDialog()
+                            Toast.makeText(
+                                requireActivity(),
+                                it.message.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+
+                    }
                 }
             }
         }
