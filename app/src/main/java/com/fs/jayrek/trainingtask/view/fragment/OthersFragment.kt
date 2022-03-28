@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentOthersBinding
+import com.fs.jayrek.trainingtask.helper.DialogHelper
 import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.model.model.User
@@ -63,11 +64,29 @@ class OthersFragment : Fragment() {
         }
 
         viewModel.isLogout.observe(viewLifecycleOwner) {
-            if (it) {
-                startActivity(Intent(Intent(requireActivity(), AuthActivity::class.java)))
-                requireActivity().finish()
-                Toast.makeText(requireActivity(), StringConstants.SIGNING_OUT, Toast.LENGTH_SHORT)
-                    .show()
+            when (it) {
+                is Resource.Loading -> DialogHelper.showProgressDialog(
+                    StringConstants.SIGNING_OUT,
+                    requireActivity(),
+                    false
+                )
+                is Resource.Success -> {
+                    DialogHelper.dismissProgressDialog()
+                    startActivity(Intent(Intent(requireActivity(), AuthActivity::class.java)))
+                    requireActivity().finish()
+                    Toast.makeText(
+                        requireActivity(),
+                        StringConstants.SIGNED_OUT,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+                is Resource.Error -> {
+                    DialogHelper.dismissProgressDialog()
+                    Toast.makeText(requireActivity(), it.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
+                }
+
             }
         }
     }

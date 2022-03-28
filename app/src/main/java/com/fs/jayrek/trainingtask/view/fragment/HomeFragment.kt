@@ -33,20 +33,21 @@ class HomeFragment : Fragment() {
         val webSettings: WebSettings = binding.webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
+
+        binding.webView.addJavascriptInterface(JSInterface(requireActivity()), "Android")
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                if (Uri.parse(url).host == StringConstants.HOME_WEB_URL) {
+                if (Uri.parse(url).host != StringConstants.HOME_WEB_URL) {
                     Log.wtf("URL=1", url.toString())
-                    return false
+                    Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                        startActivity(this)
+                        return true
+                    }
                 }
                 Log.wtf("URL=2", url.toString())
-                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                    startActivity(this)
-                    return true
-                }
+                return false
             }
         }
-        binding.webView.addJavascriptInterface(JSInterface(requireActivity()), "Android")
         return binding.root
     }
 }

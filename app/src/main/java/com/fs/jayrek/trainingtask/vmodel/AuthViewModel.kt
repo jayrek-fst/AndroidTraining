@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(private val _repo: AuthRepository): ViewModel() {
+class AuthViewModel @Inject constructor(private val _repo: AuthRepository) : ViewModel() {
 
     private val _authStatus = MutableLiveData<Resource<AuthResult>>()
     val authStatus: LiveData<Resource<AuthResult>> = _authStatus
@@ -60,8 +60,8 @@ class AuthViewModel @Inject constructor(private val _repo: AuthRepository): View
         }
     }
 
-    private val _isLogOut: MutableLiveData<Boolean> = MutableLiveData()
-    val isLogout: LiveData<Boolean> = _isLogOut
+    private val _isLogOut: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    val isLogout: LiveData<Resource<Boolean>> = _isLogOut
 
     private val _user = MutableLiveData<FirebaseUser?>()
     val user: LiveData<FirebaseUser?> = _user
@@ -78,15 +78,14 @@ class AuthViewModel @Inject constructor(private val _repo: AuthRepository): View
     }
 
     fun logOut() {
-        _isLogOut.postValue(false)
         viewModelScope.launch {
             try {
+                _isLogOut.postValue(Resource.Loading())
                 FirebaseAuth.getInstance().signOut()
-                _isLogOut.postValue(true)
+                _isLogOut.postValue(Resource.Success(true))
             } catch (e: Exception) {
-                _isLogOut.postValue(false)
+                _isLogOut.postValue(Resource.Error(e.message.toString()))
             }
         }
     }
-
 }

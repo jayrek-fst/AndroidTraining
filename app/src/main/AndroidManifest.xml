@@ -23,7 +23,6 @@
         </activity>
         <activity android:name=".view.activity.MainActivity" />
         <activity android:name=".view.activity.AuthActivity" />
-        <activity android:name=".view.activity.SignUpWebViewActivity" />
     </application>
 
 </manifest>
