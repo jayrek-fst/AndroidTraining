@@ -86,13 +86,8 @@ class SignUpFragment : Fragment() {
                 viewModel.logOut()
                 viewModel.isLogout.observe(viewLifecycleOwner) {
                     when (it) {
-                        is Resource.Loading -> DialogHelper.showProgressDialog(
-                            StringConstants.SIGNING_OUT,
-                            requireActivity(),
-                            false
-                        )
+                        is Resource.Loading -> {}
                         is Resource.Success -> {
-                            DialogHelper.dismissProgressDialog()
                             Toast.makeText(
                                 requireActivity(),
                                 StringConstants.SIGNED_OUT,
@@ -101,7 +96,6 @@ class SignUpFragment : Fragment() {
                                 .show()
                         }
                         is Resource.Error -> {
-                            DialogHelper.dismissProgressDialog()
                             Toast.makeText(
                                 requireActivity(),
                                 it.message.toString(),
@@ -109,7 +103,6 @@ class SignUpFragment : Fragment() {
                             )
                                 .show()
                         }
-
                     }
                 }
             }

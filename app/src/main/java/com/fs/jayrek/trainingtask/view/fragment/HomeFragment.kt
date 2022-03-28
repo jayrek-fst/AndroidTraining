@@ -37,17 +37,25 @@ class HomeFragment : Fragment() {
         binding.webView.addJavascriptInterface(JSInterface(requireActivity()), "Android")
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                if (Uri.parse(url).host != StringConstants.HOME_WEB_URL) {
-                    Log.wtf("URL=1", url.toString())
-                    Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                        startActivity(this)
-                        return true
-                    }
+                if (url!!.contains("cloudfront")) {
+                    return navigateItem(url.toString())
                 }
-                Log.wtf("URL=2", url.toString())
-                return false
+                return navigateIntent(url)
             }
         }
         return binding.root
+    }
+
+    private fun navigateItem(url: String): Boolean {
+        val splitter = url.split("=")
+        val urlMovie = splitter[1]
+        return navigateIntent(urlMovie)
+    }
+
+    private fun navigateIntent(url: String): Boolean {
+        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            startActivity(this)
+            return true
+        }
     }
 }
