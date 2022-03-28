@@ -1,6 +1,8 @@
 package com.fs.jayrek.trainingtask.view.fragment
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentFeedsBinding
-import com.fs.jayrek.trainingtask.helper.DialogHelper
 import com.fs.jayrek.trainingtask.helper.Resource
 import com.fs.jayrek.trainingtask.helper.StringConstants
 import com.fs.jayrek.trainingtask.view.adapter.FeedAdapter
@@ -23,6 +24,7 @@ class FeedsFragment : Fragment() {
 
     private lateinit var binding: FragmentFeedsBinding
     private lateinit var feedAdapter: FeedAdapter
+    private val viewModel: TweetViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +38,10 @@ class FeedsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observers()
+        swipeRefresh()
     }
 
     private fun observers() {
-        val viewModel: TweetViewModel by viewModels()
-
         viewModel.getTweets()
         viewModel.tweets.observe(viewLifecycleOwner) {
             when (it) {
@@ -51,6 +52,7 @@ class FeedsFragment : Fragment() {
                 is Resource.Success -> {
                     binding.progress.visibility = View.GONE
                     binding.rView.visibility = View.VISIBLE
+                    Log.wtf("TWEET0", it.data?.size.toString())
                     if (it.data!!.isNotEmpty()) {
                         binding.rView.apply {
                             layoutManager = LinearLayoutManager(requireActivity())
@@ -62,13 +64,13 @@ class FeedsFragment : Fragment() {
                         binding.rView.visibility = View.VISIBLE
                         Toast.makeText(
                             requireActivity(),
-                            StringConstants.noAvailable,
+                            StringConstants.NO_TWEET_AVAILABLE,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
                 is Resource.Error -> {
-                    DialogHelper.dismissProgressDialog()
+                    binding.progress.visibility = View.GONE
                     Toast.makeText(
                         requireActivity(),
                         it.message.toString(),
@@ -76,6 +78,15 @@ class FeedsFragment : Fragment() {
                     ).show()
                 }
             }
+        }
+    }
+
+    private fun swipeRefresh() {
+        binding.swipeRefreshLayout.setColorSchemeColors(Color.rgb(0, 0, 0))
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE)
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 }

@@ -18,19 +18,24 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivitySplashBinding = DataBindingUtil.setContentView(this,R.layout.activity_splash)
+        val binding: ActivitySplashBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_splash)
         supportActionBar?.hide()
-        val viewModel : AuthViewModel by viewModels()
+        screenNavigation()
+    }
+
+    private fun screenNavigation() {
+        val viewModel: AuthViewModel by viewModels()
         viewModel.checkUserLogIn()
-        viewModel.user.observe(this, ){
+        viewModel.user.observe(this) {
             Handler().postDelayed({
-                if (it != null) {
+                if (it != null)
                     startActivity(Intent(Intent(this, MainActivity::class.java)))
-                } else {
+                else
                     startActivity(Intent(Intent(this, AuthActivity::class.java)))
-                }
                 finish()
-            }, 5000) //delay for 3 seconds, for the visibility of splash screen
+            }, 3000)
+            /**delay for 3 seconds, for the visibility of splash*/
         }
     }
 }

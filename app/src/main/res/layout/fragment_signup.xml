@@ -5,67 +5,66 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         tools:context=".view.fragment.SignInFragment">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp">
 
-            <EditText
-                android:id="@+id/edEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:inputType="textEmailAddress"
-                android:textSize="15dp"
-                android:hint="Email" />
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/edFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/edEmail"
-                android:inputType="textCapWords"
-                android:textSize="15dp"
-                android:hint="First Name" />
+        <EditText
+            android:id="@+id/edFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edEmail"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="name"
+            android:hint="@string/first_name"
+            android:inputType="textCapWords"
+            android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/edLastName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/edFirstName"
-                android:inputType="textCapWords"
-                android:textSize="15dp"
-                android:hint="Last Name" />
+        <EditText
+            android:id="@+id/edLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edFirstName"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="name"
+            android:hint="@string/last_name"
+            android:inputType="textCapWords"
+            android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/edPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/edLastName"
-                android:inputType="textPassword"
-                android:textSize="15dp"
-                android:hint="Password" />
+        <EditText
+            android:id="@+id/edPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edLastName"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="password"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/btnConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edPassword"
-                android:layout_marginTop="10dp"
-                android:padding="12dp"
-                android:textStyle="bold"
-                android:text="Confirm" />
-
-        </RelativeLayout>
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edPassword"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:text="@string/confirm"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 </layout>

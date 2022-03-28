@@ -5,32 +5,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         tools:context=".view.activity.SplashActivity">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/tvFst"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fst"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/tvFst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="30dp"
-                android:textColor="@color/black"
-                android:text="FST" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Android Training"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="35dp"
-                android:textColor="@color/black"
-                android:layout_below="@+id/tvFst" />
-        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvFst"
+            android:gravity="center"
+            android:text="@string/android_training"
+            android:textColor="@color/black"
+            android:textSize="35sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 </layout>

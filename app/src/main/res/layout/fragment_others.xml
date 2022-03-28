@@ -5,43 +5,43 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.OthersFragment"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        tools:context=".view.fragment.OthersFragment">
 
         <TextView
             android:id="@+id/tvInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingEnd="20dp"
             android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <View
-            android:layout_below="@+id/tvInfo"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_below="@+id/tvInfo"
+            android:background="@color/grey"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:background="@color/grey" />
+            android:paddingEnd="20dp" />
 
         <TextView
-            android:layout_below="@+id/tvInfo"
             android:id="@+id/tvLogOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:text="Sign Out"
+            android:layout_below="@+id/tvInfo"
             android:background="?android:attr/selectableItemBackground"
+            android:paddingStart="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:paddingEnd="20dp"
-            android:paddingStart="20dp"/>
+            android:paddingBottom="10dp"
+            android:text="@string/sign_out"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 </layout>

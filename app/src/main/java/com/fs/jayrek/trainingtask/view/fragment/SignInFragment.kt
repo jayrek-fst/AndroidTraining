@@ -1,22 +1,18 @@
 package com.fs.jayrek.trainingtask.view.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentSigninBinding
-import com.fs.jayrek.trainingtask.helper.DialogHelper
-import com.fs.jayrek.trainingtask.helper.Resource
-import com.fs.jayrek.trainingtask.helper.StringConstants
+import com.fs.jayrek.trainingtask.helper.*
 import com.fs.jayrek.trainingtask.view.activity.MainActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,19 +40,29 @@ class SignInFragment : Fragment() {
         val viewModel: AuthViewModel by viewModels()
 
         binding.btnSignIn.setOnClickListener {
-            closeKeyBoard()
-            viewModel.signIn(binding.edEmail.text.toString(), binding.edPassword.text.toString())
+            HelperClass.closeKeyBoard(requireActivity())
+
+            val email: String = binding.edEmail.text.toString()
+            val password: String = binding.edPassword.text.toString()
+
+            if (userInputs(email, password))
+                viewModel.signIn(email, password)
+            else Toast.makeText(
+                requireActivity(),
+                StringConstants.SIGN_IN_VALIDATION,
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.btnSignUp.setOnClickListener {
-            closeKeyBoard()
+            HelperClass.closeKeyBoard(requireActivity())
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
 
         viewModel.authStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> DialogHelper.showProgressDialog(
-                    StringConstants.signingIn,
+                    StringConstants.SIGNING_IN,
                     requireActivity(),
                     false
                 )
@@ -77,12 +83,7 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun closeKeyBoard() {
-        val view = requireActivity().currentFocus
-        if (view != null) {
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
+    private fun userInputs(email: String, password: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
     }
 }

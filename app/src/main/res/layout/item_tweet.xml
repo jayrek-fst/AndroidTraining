@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="tweet"
             type="com.fs.jayrek.trainingtask.model.model.TweetModel" />
@@ -11,38 +12,39 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <RelativeLayout
             android:id="@id/rlParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-           <RelativeLayout
-               android:id="@+id/rlImage"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_centerVertical="true"
-               android:gravity="center"
-               android:padding="5dp">
-
-               <ImageView
-                   android:id="@+id/tweetImage"
-                   android:layout_width="50dp"
-                   android:layout_height="50dp"
-                   app:image="@{tweet.profileImage}" />
-
-           </RelativeLayout>
-
             <RelativeLayout
-                android:layout_toEndOf="@+id/rlImage"
+                android:id="@+id/rlImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/tweetImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/app_name"
+                    app:image="@{tweet.profileImage}" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/rlImage"
+                android:paddingStart="10dp"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp"
                 android:paddingEnd="10dp"
-                android:paddingStart="10dp">
+                android:paddingBottom="15dp">
 
                 <TextView
                     android:id="@+id/tvUserName"
@@ -50,21 +52,22 @@
                     android:layout_height="wrap_content"
                     android:text='@{tweet.userName + " " + tweet.screenName}'
                     android:textColor="@color/black"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:layout_below="@+id/tvUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvUserName"
                     android:text="@{tweet.text}"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
             </RelativeLayout>
         </RelativeLayout>
+
         <View
-            android:layout_below="@+id/rlParent"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_below="@+id/rlParent"
             android:background="@color/grey" />
     </RelativeLayout>
 </layout>

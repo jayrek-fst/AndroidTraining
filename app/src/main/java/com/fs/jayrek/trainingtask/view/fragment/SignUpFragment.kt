@@ -1,6 +1,5 @@
 package com.fs.jayrek.trainingtask.view.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,12 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.fs.jayrek.trainingtask.R
 import com.fs.jayrek.trainingtask.databinding.FragmentSignupBinding
+import com.fs.jayrek.trainingtask.helper.*
 import com.fs.jayrek.trainingtask.view.activity.MainActivity
 import com.fs.jayrek.trainingtask.vmodel.AuthViewModel
-import android.view.inputmethod.InputMethodManager
-import com.fs.jayrek.trainingtask.helper.DialogHelper
-import com.fs.jayrek.trainingtask.helper.Resource
-import com.fs.jayrek.trainingtask.helper.StringConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,19 +39,27 @@ class SignUpFragment : Fragment() {
         val viewModel: AuthViewModel by viewModels()
 
         binding.btnConfirm.setOnClickListener {
-            closeKeyBoard()
-            viewModel.signUp(
-                binding.edEmail.text.toString(),
-                binding.edFirstName.text.toString(),
-                binding.edLastName.text.toString(),
-                binding.edPassword.text.toString()
-            )
+            HelperClass.closeKeyBoard(requireActivity())
+
+            val email: String = binding.edEmail.text.toString()
+            val fName: String = binding.edFirstName.text.toString()
+            val lName: String = binding.edLastName.text.toString()
+            val password: String = binding.edPassword.text.toString()
+
+            if (userInputs(email, fName, lName, password))
+                viewModel.signUp(email, fName, lName, password)
+            else
+                Toast.makeText(
+                    requireActivity(),
+                    StringConstants.SIGN_UP_VALIDATION,
+                    Toast.LENGTH_SHORT
+                ).show()
         }
 
         viewModel.authStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> DialogHelper.showProgressDialog(
-                    StringConstants.signingUp,
+                    StringConstants.SIGNING_UP,
                     requireActivity(),
                     false
                 )
@@ -66,19 +70,17 @@ class SignUpFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     DialogHelper.dismissProgressDialog()
-                    Toast.makeText(requireActivity(),
-                        it.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireActivity(),
+                        it.message.toString(), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
     }
 
-    private fun closeKeyBoard() {
-        val view = requireActivity().currentFocus
-        if (view != null) {
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
+    private fun userInputs(email: String, fName: String, lName: String, password: String): Boolean {
+        return email.isNotEmpty() && fName.isNotEmpty() &&
+                lName.isNotEmpty() && password.isNotEmpty()
     }
 }

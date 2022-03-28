@@ -28,14 +28,14 @@ class HomeFragment : Fragment() {
         val binding: FragmentHomeBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        binding.webView.loadUrl(StringConstants.homeWebUrl)
+        binding.webView.loadUrl(StringConstants.HOME_WEB_URL)
 
         val webSettings: WebSettings = binding.webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                if (Uri.parse(url).host == StringConstants.homeWebUrl) {
+                if (Uri.parse(url).host == StringConstants.HOME_WEB_URL) {
                     Log.wtf("URL=1", url.toString())
                     return false
                 }

@@ -11,7 +11,7 @@ import com.fs.jayrek.trainingtask.view.activity.SignUpWebViewActivity
 class JSInterface(private val mContext: Context) {
 
     @JavascriptInterface
-    fun signup(){
+    fun signup() {
         Log.wtf("URL=3", "URL")
 //        val intent = Intent(mContext, SignUpWebViewActivity::class.java)
 //        mContext.startActivity(intent)
