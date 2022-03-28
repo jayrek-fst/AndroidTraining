@@ -66,7 +66,7 @@ class OthersFragment : Fragment() {
             if (it) {
                 startActivity(Intent(Intent(requireActivity(), AuthActivity::class.java)))
                 requireActivity().finish()
-                Toast.makeText(requireActivity(), StringConstants.signingOut, Toast.LENGTH_SHORT)
+                Toast.makeText(requireActivity(), StringConstants.SIGNING_OUT, Toast.LENGTH_SHORT)
                     .show()
             }
         }

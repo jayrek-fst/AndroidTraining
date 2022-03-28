@@ -35,11 +35,12 @@ class AuthRepository @Inject constructor(private val _auth: FirebaseAuth, privat
     ): Resource<AuthResult> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                val user = User(fName, lName)
                 val auth =
                     _auth.createUserWithEmailAndPassword(email, password)
                         .await()
-                _fireStore.collection(StringConstants.documentUser)
+
+                val user = User(fName, lName)
+                _fireStore.collection(StringConstants.DOCUMENT_USER)
                     .document(auth.user!!.uid)
                     .set(user)
                     .await()
@@ -54,7 +55,7 @@ class AuthRepository @Inject constructor(private val _auth: FirebaseAuth, privat
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 Resource.Success(
-                    _fireStore.collection(StringConstants.documentUser)
+                    _fireStore.collection(StringConstants.DOCUMENT_USER)
                         .document(uid)
                         .get().await()
                 )
