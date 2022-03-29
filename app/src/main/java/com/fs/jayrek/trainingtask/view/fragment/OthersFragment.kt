@@ -72,7 +72,9 @@ class OthersFragment : Fragment() {
                 )
                 is Resource.Success -> {
                     DialogHelper.dismissProgressDialog()
-                    startActivity(Intent(Intent(requireActivity(), AuthActivity::class.java)))
+                    val intent = Intent(requireActivity(), AuthActivity::class.java)
+                    intent.putExtra("type", "signIn")
+                    startActivity(intent)
                     requireActivity().finish()
                     Toast.makeText(
                         requireActivity(),
